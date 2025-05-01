@@ -63,7 +63,7 @@ export class RoutineController{
 
             return res.status(200).json(routine);
         } catch (e) {
-            res.status(500).json({error: e.message});
+            res.status(500).json({error: "error on update routine"});
         }
     }
 }
