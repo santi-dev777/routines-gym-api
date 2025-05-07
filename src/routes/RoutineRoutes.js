@@ -1,7 +1,7 @@
 import {Router} from "express";
 import {RoutineController} from "../controllers/RoutineController.js";
 
-export const createRoutineRoutes = ({ routineModel }) => {
+export const CreateRoutineRoutes = ({ routineModel }) => {
     const router = Router();
 
     const routineController = new RoutineController({ routineModel });

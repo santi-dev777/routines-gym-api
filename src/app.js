@@ -1,12 +1,15 @@
 import express,{json} from "express"
-import {createRoutineRoutes} from "./routes/RoutineRoutes.js"
+import {CreateRoutineRoutes} from "./routes/RoutineRoutes.js"
+import {CreateExercisesRoutes} from "./routes/ExercisesRoutes.js"
 
-export const createApp = ({ routineModel }) => {
+export const createApp = ({ routineModel, exerciseModel }) => {
     const app = express();
 
     app.use(json());
 
-    app.use("/api/routines", createRoutineRoutes({ routineModel }));
+    app.use("/routines", CreateRoutineRoutes({ routineModel }));
+
+    app.use("/exercises", CreateExercisesRoutes({ exerciseModel }));
 
     const PORT = process.env.PORT ?? 1234;
 
