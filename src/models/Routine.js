@@ -159,6 +159,43 @@ export class RoutineModel{
             throw new Error('Uno o más ejercicios no existen');
         }
     }
+
+    static async getRoutineMuscle(muscle_group_id){
+        const [routines] = await pool.query(
+            `SELECT 
+            r.id,
+            r.name,
+            r.description,
+            r.total_duration_minutes,
+            r.is_public,
+            JSON_ARRAYAGG(
+                JSON_OBJECT(
+                    'id', e.id,
+                    'name', e.name,
+                    'short_description', e.short_description,
+                    'technique', e.technique,
+                    'rest_seconds', e.rest_seconds,
+                    'muscle_group', mg.name
+                )
+            ) AS exercises
+            FROM routines r
+            JOIN routine_exercises re ON r.id = re.routine_id
+            JOIN exercises e ON re.exercise_id = e.id
+            JOIN muscle_groups mg ON e.muscle_group_id = mg.id
+            WHERE r.id IN (
+                SELECT r2.id
+                FROM routines r2
+                JOIN routine_exercises re2 ON r2.id = re2.routine_id
+                JOIN exercises e2 ON re2.exercise_id = e2.id
+                WHERE e2.muscle_group_id = ?
+            )
+            GROUP BY r.id, r.name, r.description, r.total_duration_minutes, r.is_public`, 
+        [muscle_group_id]);
+
+        if(routines.length === 0) return null;
+
+        return routines;
+    }
     
 }
 

@@ -66,4 +66,15 @@ export class RoutineController{
             res.status(500).json({error: "error on update routine"});
         }
     }
+
+    getRoutineMuscle = async (req,res) => {
+        try{
+            const { muscle_group_id } = req.params;
+            const routine = await this.RoutineModel.getRoutineMuscle(muscle_group_id);
+            if(!routine) return res.status(404).json({ error: "Routine not found" });
+            return res.status(200).json(routine);
+        }catch(e){
+            res.status(500).json({error: "error on get routine"});
+        }
+    }
 }

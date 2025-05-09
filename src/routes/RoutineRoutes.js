@@ -16,5 +16,7 @@ export const CreateRoutineRoutes = ({ routineModel }) => {
 
     router.patch("/:id", routineController.update);
 
+    router.get("/muscle/:muscle_group_id", routineController.getRoutineMuscle);
+
     return router;
 }

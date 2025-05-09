@@ -1,8 +1,9 @@
 import express,{json} from "express"
 import {CreateRoutineRoutes} from "./routes/RoutineRoutes.js"
 import {CreateExercisesRoutes} from "./routes/ExercisesRoutes.js"
+import {CreateMuscleGroupRoutes} from "./routes/MuscleGroupRoutes.js"
 
-export const createApp = ({ routineModel, exerciseModel }) => {
+export const createApp = ({ routineModel, exerciseModel, muscleGroupModel }) => {
     const app = express();
 
     app.use(json());
@@ -10,6 +11,8 @@ export const createApp = ({ routineModel, exerciseModel }) => {
     app.use("/routines", CreateRoutineRoutes({ routineModel }));
 
     app.use("/exercises", CreateExercisesRoutes({ exerciseModel }));
+
+    app.use("/muscle-groups", CreateMuscleGroupRoutes({ muscleGroupModel }));
 
     const PORT = process.env.PORT ?? 1234;
 
